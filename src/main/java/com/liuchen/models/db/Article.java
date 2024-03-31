@@ -1,7 +1,5 @@
 package com.liuchen.models.db;
 
-import com.liuchen.models.db.block.ArticleBlock;
-import com.liuchen.models.db.block.TextBlock;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,21 +20,18 @@ import java.util.Set;
 @Entity
 @Table(name = "article")
 @Data
-public class Article extends DBEntity{
+public class Article{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long aid;
 
     private String author;
 
     private String description;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
-    private List<TextBlock> textBlocks;
-
-//    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-//    @EqualsAndHashCode.Exclude
-//    private Set<CommentBlock> comments;
-
-    @Transient
-    private Set<ArticleBlock> articleBlocks;
+    private List<Comment> commentList;
 
 }
