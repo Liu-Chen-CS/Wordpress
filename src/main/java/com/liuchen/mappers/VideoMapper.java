@@ -1,5 +1,6 @@
 package com.liuchen.mappers;
 
+import com.liuchen.models.db.Article;
 import com.liuchen.models.db.blocks.Video;
 import com.liuchen.models.dto.ArticleBlockDto;
 import com.liuchen.models.dto.VideoDto;
@@ -30,6 +31,18 @@ public class VideoMapper {
             videoDtos.add(videoDto);
         }
         return videoDtos;
+    }
+
+    public List<Video> saveVideo(List<Video> videoList, Article articleDB){
+        List<Video> videoListDB = new ArrayList<>();
+        for(int i = 0; i < videoList.size(); i++){
+            Video video = new Video();
+            video.setSortedIndex(i);
+            video.setVideo(videoList.get(i).getVideo());
+            video.setArticle(articleDB);
+            videoListDB.add(video);
+        }
+        return videoListDB;
     }
 
 }

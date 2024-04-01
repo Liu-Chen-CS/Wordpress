@@ -4,10 +4,7 @@ import com.liuchen.models.db.Article;
 import com.liuchen.models.dto.ArticleDto;
 import com.liuchen.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Package: com.liuchen.controller
@@ -28,6 +25,11 @@ public class ArticleController {
     @GetMapping("{id}")
     public ArticleDto findArticleById(@PathVariable(name = "id") Long id){
         return articleService.findArticleById(id);
+    }
+
+    @PostMapping
+    public void saveArticle(@RequestBody Article article){
+        articleService.saveArticle(article);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.liuchen.mappers;
 
+import com.liuchen.models.db.Article;
 import com.liuchen.models.db.blocks.Image;
 import com.liuchen.models.dto.ArticleBlockDto;
 import com.liuchen.models.dto.ImageDto;
@@ -31,5 +32,19 @@ public class ImageMapper {
         }
         return imageDtos;
     }
+
+    public List<Image> saveImage(List<Image> imageList, Article articleDB){
+        List<Image> imagesDB = new ArrayList<>();
+        for(int i = 0; i < imageList.size(); i++){
+            Image image = new Image();
+            image.setSortedIndex(i);
+            image.setImageSize(imageList.get(i).getImageSize());
+            image.setUrl(imageList.get(i).getUrl());
+            image.setArticle(articleDB);
+            imagesDB.add(image);
+        }
+        return imagesDB;
+    }
+
 
 }

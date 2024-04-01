@@ -60,4 +60,27 @@ public class ArticleService {
         return articleDto;
 
     }
+
+    public void saveArticle(Article article){
+
+        // basic values injection
+        ArticleMapper articleMapper = new ArticleMapper();
+        Article articleDB = articleMapper.saveArticle(article);
+
+        ImageMapper imageMapper = new ImageMapper();
+        List<Image> imagesDB = imageMapper.saveImage(article.getImageList(), articleDB);
+
+        VideoMapper videoMapper = new VideoMapper();
+        List<Video> videosDB = videoMapper.saveVideo(article.getVideoList(), articleDB);
+
+        //connection
+        articleDB.setImageList(imagesDB);
+        articleDB.setVideoList(videosDB);
+
+
+        //persistence
+        articleRepository.save(articleDB);
+        videoRepository.saveAll(videosDB);
+        imageRepository.saveAll(imagesDB);
+    }
 }

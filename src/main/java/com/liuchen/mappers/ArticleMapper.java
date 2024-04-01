@@ -4,6 +4,8 @@ import com.liuchen.models.db.Article;
 import com.liuchen.models.dto.ArticleDto;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * Package: com.liuchen.mappers
  * Description:
@@ -23,7 +25,15 @@ public class ArticleMapper {
         articleDto.setAuthor(articleDB.getAuthor());
         articleDto.setDescription(articleDB.getDescription());
         return articleDto;
+    }
 
+    public Article saveArticle(Article article){
+        Article articleDB = new Article();
+        articleDB.setAuthor(article.getAuthor());
+        articleDB.setDescription(article.getDescription());
+        articleDB.setLastModified(new Date());
+        articleDB.setLastModifiedBy(article.getAuthor());
+        return articleDB;
     }
 
 }
