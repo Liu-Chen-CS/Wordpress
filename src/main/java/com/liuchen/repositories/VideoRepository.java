@@ -23,4 +23,10 @@ public interface VideoRepository extends JpaRepository<Video, Integer> {
     @Query("from Video c where c.article.id = ?1")
     List<Video> findVideosById(Long id);
 
+
+    @Modifying
+    @Transactional
+    @Query("delete from Video v where v.article.id = ?1")
+    public void deleteVideoById(Long id);
+
 }

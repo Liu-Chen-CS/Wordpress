@@ -6,6 +6,8 @@ import com.liuchen.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Package: com.liuchen.controller
  * Description:
@@ -22,14 +24,25 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    @PostMapping
+    public void saveArticle(@RequestBody Article article){
+        articleService.saveArticle(article);
+    }
+
     @GetMapping("{id}")
     public ArticleDto findArticleById(@PathVariable(name = "id") Long id){
         return articleService.findArticleById(id);
     }
 
-    @PostMapping
-    public void saveArticle(@RequestBody Article article){
-        articleService.saveArticle(article);
+    @GetMapping
+    public List<ArticleDto> getAllArticles(){
+        List<ArticleDto> allArticlesDto = articleService.findAllArticles();
+        return allArticlesDto;
+    }
+
+    @GetMapping("/resource/{id}")
+    public void deleteArticleById(@PathVariable(name = "id") Long id){
+        articleService.deleteArticleById(id);
     }
 
 }

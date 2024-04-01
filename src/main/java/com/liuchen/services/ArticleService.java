@@ -13,6 +13,8 @@ import com.liuchen.repositories.ImageRepository;
 import com.liuchen.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +63,34 @@ public class ArticleService {
 
     }
 
+    public List<ArticleDto> findAllArticles(){
+        List<ArticleDto> articleDtos = new ArrayList<>();
+
+        List<Article> ArticlesDB = articleRepository.findAll();
+
+        for(int i = 0; i < ArticlesDB.size(); i++){
+            Long id = ArticlesDB.get(i).getId();
+            List<Video> videosDB = videoRepository.findVideosById(id);
+            List<Image> imagesDB = imageRepository.findImagesById(id);
+
+            ArticleMapper articleMapper = new ArticleMapper();
+            ArticleDto articleDto = articleMapper.ArticleToDto(ArticlesDB.get(i));
+
+            VideoMapper videoMapper = new VideoMapper();
+            List<ArticleBlockDto> videosDtos = videoMapper.videosToDto(videosDB);
+
+            ImageMapper imageMapper = new ImageMapper();
+            List<ArticleBlockDto> imagesDtos = imageMapper.ImagesToDto(imagesDB);
+
+            articleDto.getArticleBlockDtos().add(imagesDtos);
+            articleDto.getArticleBlockDtos().add(videosDtos);
+
+            articleDtos.add(articleDto);
+        }
+        return articleDtos;
+    }
+
+
     public void saveArticle(Article article){
 
         // basic values injection
@@ -83,4 +113,12 @@ public class ArticleService {
         videoRepository.saveAll(videosDB);
         imageRepository.saveAll(imagesDB);
     }
+
+    public void deleteArticleById(Long id){
+        articleRepository.deleteById(id);
+        videoRepository.deleteVideoById(id);
+        imageRepository.deleteImageById(id);
+    }
+
+
 }
