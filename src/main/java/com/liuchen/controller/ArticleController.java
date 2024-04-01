@@ -5,6 +5,7 @@ import com.liuchen.models.dto.ArticleDto;
 import com.liuchen.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +25,9 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-
-    @GetMapping("/hi")
-    public ArticleDto findArticleById(){
-        return articleService.findArticleById();
+    @GetMapping("{id}")
+    public ArticleDto findArticleById(@PathVariable(name = "id") Long id){
+        return articleService.findArticleById(id);
     }
-
 
 }

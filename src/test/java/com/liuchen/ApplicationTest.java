@@ -5,7 +5,7 @@ import com.liuchen.models.db.blocks.Video;
 import com.liuchen.models.db.blocks.Image;
 import com.liuchen.models.db.blocks.ImageSize;
 import com.liuchen.repositories.ArticleRepository;
-import com.liuchen.repositories.CommentRepository;
+import com.liuchen.repositories.VideoRepository;
 import com.liuchen.repositories.ImageRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class ApplicationTest {
     ArticleRepository articleRepository;
 
     @Autowired
-    CommentRepository commentRepository;
+    VideoRepository commentRepository;
 
     @Autowired
     ImageRepository imageRepository;

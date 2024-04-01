@@ -7,15 +7,13 @@ import lombok.Data;
  * Description:
  *
  * @Author: Liu-Chen-CS
- * @Create: 3/31/2024 - 9:58 PM
+ * @Create: 4/1/2024 - 10:20 AM
  * @Version: v1.0
  */
 
 @Data
-public class VideoDto extends ArticleBlockDto{
+public abstract class ArticleBlockDto {
 
-    private Long vid;
-
-    private String video;
+    private int sortIndex;
 
 }

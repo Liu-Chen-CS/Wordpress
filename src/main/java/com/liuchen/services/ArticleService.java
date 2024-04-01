@@ -1,15 +1,18 @@
 package com.liuchen.services;
 
+import com.liuchen.mappers.ArticleMapper;
+import com.liuchen.mappers.ImageMapper;
+import com.liuchen.mappers.VideoMapper;
 import com.liuchen.models.db.Article;
+import com.liuchen.models.db.blocks.Image;
 import com.liuchen.models.db.blocks.Video;
+import com.liuchen.models.dto.ArticleBlockDto;
 import com.liuchen.models.dto.ArticleDto;
-import com.liuchen.models.dto.VideoDto;
 import com.liuchen.repositories.ArticleRepository;
-import com.liuchen.repositories.CommentRepository;
+import com.liuchen.repositories.ImageRepository;
+import com.liuchen.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,30 +31,31 @@ public class ArticleService {
     ArticleRepository articleRepository;
 
     @Autowired
-    CommentRepository commentRepository;
+    VideoRepository videoRepository;
 
-    public ArticleDto findArticleById(){
+    @Autowired
+    ImageRepository imageRepository;
 
-        Article byId = articleRepository.findById(2L).get();
-        List<Video> articleById = commentRepository.findArticleById(2L);
+    public ArticleDto findArticleById(Long id){
 
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setAid(byId.getId());
-        articleDto.setAuthor(byId.getAuthor());
-        articleDto.setDescription(byId.getDescription());
+        //Raw data from database
+        Article articleDB = articleRepository.findById(id).get();
+        List<Video> videosDB = videoRepository.findVideosById(id);
+        List<Image> imagesDB = imageRepository.findImagesById(id);
 
-        List<VideoDto> videoDtos = new ArrayList<>();
+        //initializing Mappers
+        ArticleMapper articleMapper = new ArticleMapper();
+        ArticleDto articleDto = articleMapper.ArticleToDto(articleDB);
 
-        VideoDto videoDto1 = new VideoDto();
-        VideoDto videoDto2 = new VideoDto();
+        ImageMapper imageMapper = new ImageMapper();
+        List<ArticleBlockDto> imagesDtos = imageMapper.ImagesToDto(imagesDB);
 
-        videoDto1.setVid(byId.getVideoList().get(0).getVid());
-        videoDto2.setVid(byId.getVideoList().get(1).getVid());
+        VideoMapper videoMapper = new VideoMapper();
+        List<ArticleBlockDto> videosDtos = videoMapper.videosToDto(videosDB);
 
-        videoDtos.add(videoDto1);
-        videoDtos.add(videoDto2);
-
-        articleDto.setVideoDtos(videoDtos);
+        //values injection
+        articleDto.getArticleBlockDtos().add(imagesDtos);
+        articleDto.getArticleBlockDtos().add(videosDtos);
 
         return articleDto;
 

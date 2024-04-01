@@ -16,11 +16,11 @@ import java.util.List;
  * @Create: 3/31/2024 - 2:32 PM
  * @Version: v1.0
  */
-public interface CommentRepository extends JpaRepository<Video, Integer> {
+public interface VideoRepository extends JpaRepository<Video, Integer> {
 
     @Transactional
     @Modifying
     @Query("from Video c where c.article.id = ?1")
-    List<Video> findArticleById(Long id);
+    List<Video> findVideosById(Long id);
 
 }

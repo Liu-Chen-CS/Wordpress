@@ -2,6 +2,7 @@ package com.liuchen.models.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 @Data
-public class ArticleDto {
+public class ArticleDto extends ArticleBlockDto{
 
     private Long aid;
 
@@ -22,6 +23,6 @@ public class ArticleDto {
 
     private String description;
 
-    private List<VideoDto> videoDtos;
+    private List<List<ArticleBlockDto>> articleBlockDtos = new ArrayList<>();
 
 }
