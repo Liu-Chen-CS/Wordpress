@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Data
-public class ArticleDto extends ArticleBlockDto{
+public class ArticleDto{
 
     private Long aid;
 
