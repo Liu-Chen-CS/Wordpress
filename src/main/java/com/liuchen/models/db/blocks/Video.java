@@ -1,5 +1,6 @@
-package com.liuchen.models.db;
+package com.liuchen.models.db.blocks;
 
+import com.liuchen.models.db.Article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,17 +15,17 @@ import lombok.EqualsAndHashCode;
  */
 
 @Entity
-@Table(name = "comment")
+@Table(name = "video")
 @Data
-public class Comment {
+public class Video extends ArticleBlock{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cid;
+    private Long vid;
 
-    private String comment;
+    private String video;
 
     @ManyToOne
-    @JoinColumn(name = "article_id", referencedColumnName = "aid", unique = false)
+    @JoinColumn(name = "article_id", referencedColumnName = "id", unique = false)
     @EqualsAndHashCode.Exclude
     private Article article;
 }

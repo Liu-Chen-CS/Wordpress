@@ -1,6 +1,6 @@
 package com.liuchen.repositories;
 
-import com.liuchen.models.db.Comment;
+import com.liuchen.models.db.blocks.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,11 +16,11 @@ import java.util.List;
  * @Create: 3/31/2024 - 2:32 PM
  * @Version: v1.0
  */
-public interface CommentRepository extends JpaRepository<Comment, Integer> {
+public interface CommentRepository extends JpaRepository<Video, Integer> {
 
     @Transactional
     @Modifying
-    @Query("from Comment c where c.article.aid = ?1")
-    List<Comment> findArticleById(Long id);
+    @Query("from Video c where c.article.id = ?1")
+    List<Video> findArticleById(Long id);
 
 }

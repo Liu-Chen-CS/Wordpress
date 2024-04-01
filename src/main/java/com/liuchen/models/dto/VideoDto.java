@@ -12,10 +12,10 @@ import lombok.Data;
  */
 
 @Data
-public class CommentDto {
+public class VideoDto {
 
-    private Long cid;
+    private Long vid;
 
-    private String comment;
+    private String video;
 
 }

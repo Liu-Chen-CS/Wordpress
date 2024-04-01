@@ -22,6 +22,6 @@ public class ArticleDto {
 
     private String description;
 
-    private List<CommentDto> commentDtos;
+    private List<VideoDto> videoDtos;
 
 }
