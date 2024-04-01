@@ -11,11 +11,13 @@ import com.liuchen.models.dto.ArticleDto;
 import com.liuchen.repositories.ArticleRepository;
 import com.liuchen.repositories.ImageRepository;
 import com.liuchen.repositories.VideoRepository;
+import com.liuchen.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Package: com.liuchen.services
@@ -38,86 +40,110 @@ public class ArticleService {
     @Autowired
     ImageRepository imageRepository;
 
-    public ArticleDto findArticleById(Long id){
+    public Result findArticleById(Long id){
 
         //Raw data from database
-        Article articleDB = articleRepository.findById(id).get();
-        List<Video> videosDB = videoRepository.findVideosById(id);
-        List<Image> imagesDB = imageRepository.findImagesById(id);
+        Optional<Article> optionalArticle = articleRepository.findById(id);
 
-        //initializing Mappers
-        ArticleMapper articleMapper = new ArticleMapper();
-        ArticleDto articleDto = articleMapper.ArticleToDto(articleDB);
-
-        ImageMapper imageMapper = new ImageMapper();
-        List<ArticleBlockDto> imagesDtos = imageMapper.ImagesToDto(imagesDB);
-
-        VideoMapper videoMapper = new VideoMapper();
-        List<ArticleBlockDto> videosDtos = videoMapper.videosToDto(videosDB);
-
-        //values injection
-        articleDto.getArticleBlockDtos().add(imagesDtos);
-        articleDto.getArticleBlockDtos().add(videosDtos);
-
-        return articleDto;
-
-    }
-
-    public List<ArticleDto> findAllArticles(){
-        List<ArticleDto> articleDtos = new ArrayList<>();
-
-        List<Article> ArticlesDB = articleRepository.findAll();
-
-        for(int i = 0; i < ArticlesDB.size(); i++){
-            Long id = ArticlesDB.get(i).getId();
+        if(optionalArticle.isPresent() == false){
+            return Result.error();
+        }
+        else{
+            Article articleDB = optionalArticle.get();
             List<Video> videosDB = videoRepository.findVideosById(id);
             List<Image> imagesDB = imageRepository.findImagesById(id);
 
+            //initializing Mappers
             ArticleMapper articleMapper = new ArticleMapper();
-            ArticleDto articleDto = articleMapper.ArticleToDto(ArticlesDB.get(i));
-
-            VideoMapper videoMapper = new VideoMapper();
-            List<ArticleBlockDto> videosDtos = videoMapper.videosToDto(videosDB);
+            ArticleDto articleDto = articleMapper.ArticleToDto(articleDB);
 
             ImageMapper imageMapper = new ImageMapper();
             List<ArticleBlockDto> imagesDtos = imageMapper.ImagesToDto(imagesDB);
 
+            VideoMapper videoMapper = new VideoMapper();
+            List<ArticleBlockDto> videosDtos = videoMapper.videosToDto(videosDB);
+
+            //values injection
             articleDto.getArticleBlockDtos().add(imagesDtos);
             articleDto.getArticleBlockDtos().add(videosDtos);
 
-            articleDtos.add(articleDto);
+            return Result.ok("successfully retrieved article from database", articleDto);
         }
-        return articleDtos;
     }
 
+    public Result findAllArticles(){
+        List<Article> ArticlesDB = articleRepository.findAll();
+        if(ArticlesDB == null){
+            return Result.error();
+        }
+        else{
+            List<ArticleDto> articleDtos = new ArrayList<>();
+            for(int i = 0; i < ArticlesDB.size(); i++){
+                Long id = ArticlesDB.get(i).getId();
+                List<Video> videosDB = videoRepository.findVideosById(id);
+                List<Image> imagesDB = imageRepository.findImagesById(id);
 
-    public void saveArticle(Article article){
+                ArticleMapper articleMapper = new ArticleMapper();
+                ArticleDto articleDto = articleMapper.ArticleToDto(ArticlesDB.get(i));
 
-        // basic values injection
-        ArticleMapper articleMapper = new ArticleMapper();
-        Article articleDB = articleMapper.saveArticle(article);
+                VideoMapper videoMapper = new VideoMapper();
+                List<ArticleBlockDto> videosDtos = videoMapper.videosToDto(videosDB);
 
-        ImageMapper imageMapper = new ImageMapper();
-        List<Image> imagesDB = imageMapper.saveImage(article.getImageList(), articleDB);
+                ImageMapper imageMapper = new ImageMapper();
+                List<ArticleBlockDto> imagesDtos = imageMapper.ImagesToDto(imagesDB);
 
-        VideoMapper videoMapper = new VideoMapper();
-        List<Video> videosDB = videoMapper.saveVideo(article.getVideoList(), articleDB);
+                articleDto.getArticleBlockDtos().add(imagesDtos);
+                articleDto.getArticleBlockDtos().add(videosDtos);
 
-        //connection
-        articleDB.setImageList(imagesDB);
-        articleDB.setVideoList(videosDB);
-
-
-        //persistence
-        articleRepository.save(articleDB);
-        videoRepository.saveAll(videosDB);
-        imageRepository.saveAll(imagesDB);
+                articleDtos.add(articleDto);
+            }
+            return Result.ok("Successfully retrived all articles", articleDtos);
+        }
     }
 
-    public void deleteArticleById(Long id){
-        articleRepository.deleteById(id);
-        videoRepository.deleteVideoById(id);
-        imageRepository.deleteImageById(id);
+    public Result saveArticle(Article article){
+
+        try{
+            // basic values injection
+            ArticleMapper articleMapper = new ArticleMapper();
+            Article articleDB = articleMapper.saveArticle(article);
+
+//            System.out.println(1/0);
+
+            ImageMapper imageMapper = new ImageMapper();
+            List<Image> imagesDB = imageMapper.saveImage(article.getImageList(), articleDB);
+
+            VideoMapper videoMapper = new VideoMapper();
+            List<Video> videosDB = videoMapper.saveVideo(article.getVideoList(), articleDB);
+
+            //connection
+            articleDB.setImageList(imagesDB);
+            articleDB.setVideoList(videosDB);
+
+            //persistence
+            articleRepository.save(articleDB);
+            videoRepository.saveAll(videosDB);
+            imageRepository.saveAll(imagesDB);
+        }
+        catch(RuntimeException e){
+            e.printStackTrace();
+            return Result.error();
+        }
+
+        return Result.ok("Succesfully saved article");
+    }
+
+    public Result deleteArticleById(Long id){
+        try{
+            articleRepository.deleteById(id);
+            videoRepository.deleteVideoById(id);
+            imageRepository.deleteImageById(id);
+        }
+        catch (RuntimeException e){
+            e.printStackTrace();
+            return Result.error();
+        }
+        return Result.ok("Successfully deleted the article");
     }
 
 

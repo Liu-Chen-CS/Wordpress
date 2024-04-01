@@ -3,6 +3,7 @@ package com.liuchen.controller;
 import com.liuchen.models.db.Article;
 import com.liuchen.models.dto.ArticleDto;
 import com.liuchen.services.ArticleService;
+import com.liuchen.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,24 +26,27 @@ public class ArticleController {
     ArticleService articleService;
 
     @PostMapping
-    public void saveArticle(@RequestBody Article article){
-        articleService.saveArticle(article);
+    public Result saveArticle(@RequestBody Article article){
+        Result result = articleService.saveArticle(article);
+        return result;
     }
 
     @GetMapping("{id}")
-    public ArticleDto findArticleById(@PathVariable(name = "id") Long id){
-        return articleService.findArticleById(id);
+    public Result findArticleById(@PathVariable(name = "id") Long id){
+        Result result = articleService.findArticleById(id);
+        return result;
     }
 
     @GetMapping
-    public List<ArticleDto> getAllArticles(){
-        List<ArticleDto> allArticlesDto = articleService.findAllArticles();
-        return allArticlesDto;
+    public Result getAllArticles(){
+        Result result = articleService.findAllArticles();
+        return result;
     }
 
     @GetMapping("/resource/{id}")
-    public void deleteArticleById(@PathVariable(name = "id") Long id){
-        articleService.deleteArticleById(id);
+    public Result deleteArticleById(@PathVariable(name = "id") Long id){
+        Result result = articleService.deleteArticleById(id);
+        return result;
     }
 
 }
