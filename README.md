@@ -1,5 +1,5 @@
 ### About
-This project is a backend service based on the `Spring Boot` framework, aiming to provide management 
+This project is a backend service based on the `Spring Boot` framework including `Spring MVC`, `Spring Data JPA`, `Spring Boot Test`, aiming to provide management 
 and operations for `articles` and related content. Here are the main features and characteristics of the project:
 
 1. **Article Management**: I provide a `RESTful API` for easy management of articles such as creation, retrieving, and deletion of articles through `HTTP requests` using `SpringMVC`.
@@ -15,7 +15,7 @@ and operations for `articles` and related content. Here are the main features an
 
    Its a standard `Spring Boot` application with a `controller`, `service`, `repository`, and `mapper`. 
 
-### Features Deepdive
+### Current Features Deepdive
 #### Save - Update - Delete
 | Features    | MySQL - JPA Persistence|
 |----------|----------|
@@ -29,3 +29,24 @@ and operations for `articles` and related content. Here are the main features an
 |----------|----------|
 | `Reading` a single article    | findArticleById(specified Id)  |
 | `Reading` a list of articles   | findAll()  |
+
+### Schema Relationships
+![schema drawio](https://github.com/Liu-Chen-CS/Wordpress/assets/158779475/4f938e8a-a88f-4c0c-9e8b-6f4b65a7a611)
+
+   **Article Table**:
+   - Has `@OnetoMany` relationships with the `Image` table and the `Video` table, as one article can have multiple images and videos associated with it.
+   - Has `@ManytoMany` relationship with `article_type`, as one article can be associated with more than one topics, and topics can be used in multiple articles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
