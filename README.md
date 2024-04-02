@@ -44,7 +44,7 @@ and operations for `articles` and related content while using `MySQL` database. 
 | `Reading` a single article    | findArticleById(specified Id)  |
 | `Reading` a list of articles   | findAll()  |
 
-### Schema Relationships
+### Table Relationships
 ![schema drawio (1)](https://github.com/Liu-Chen-CS/Wordpress/assets/158779475/dd76cea4-152c-4fbe-b739-04882e4b2f63)
 
    **Article Table**:
