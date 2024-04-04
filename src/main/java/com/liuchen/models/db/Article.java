@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Package: com.liuchen.models
@@ -34,5 +36,8 @@ public class Article extends DBEntity{
     @EqualsAndHashCode.Exclude
     private List<Image> imageList;
 
+    @ManyToMany(mappedBy = "articles", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private Set<Type> types;
 
 }

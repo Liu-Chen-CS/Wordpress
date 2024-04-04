@@ -1,12 +1,10 @@
 package com.liuchen;
 
-import com.liuchen.models.db.Article;
+import com.liuchen.models.db.*;
 import com.liuchen.models.db.blocks.Video;
 import com.liuchen.models.db.blocks.Image;
 import com.liuchen.models.db.blocks.ImageSize;
-import com.liuchen.repositories.ArticleRepository;
-import com.liuchen.repositories.VideoRepository;
-import com.liuchen.repositories.ImageRepository;
+import com.liuchen.repositories.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +32,8 @@ public class ApplicationTest {
     @Autowired
     ImageRepository imageRepository;
 
+    @Autowired
+    TypeRepository typeRepository;
 
     @Test
     void saveAsrticle(){
@@ -127,6 +127,51 @@ public class ApplicationTest {
 //        System.out.println(articleDB.getAuthor());
 
         articleRepository.findById(1L);
+    }
+
+    @Test
+    void saveArticleType(){
+
+        Article article1 = new Article();
+        article1.setAuthor("Liu Chen");
+        article1.setDescription("adsad sadas ewfrgt fgvbt");
+        article1.setLastModified(new Date());
+        article1.setLastModifiedBy("Liu Chen");
+        article1.setVideoList(null);
+        article1.setImageList(null);
+
+        Article article2 = new Article();
+        article2.setAuthor("Lisa Guillard");
+        article2.setDescription("adsad sadas ewfrgt fgvbt");
+        article2.setLastModified(new Date());
+        article2.setLastModifiedBy("Liu Chen");
+        article2.setVideoList(null);
+        article2.setImageList(null);
+
+        Type type1 = new Type();
+        Type type2 = new Type();
+        type1.setType(ArticleType.Tech);
+        type2.setType(ArticleType.Funny);
+
+        HashSet<Type> types = new HashSet<>();
+        types.add(type1);
+        types.add(type2);
+        article1.setTypes(types);
+        article2.setTypes(types);
+
+        HashSet<Article> articles = new HashSet<>();
+        articles.add(article1);
+        articles.add(article2);
+        type1.setArticles(articles);
+        type2.setArticles(articles);
+
+
+        articleRepository.save(article1);
+        articleRepository.save(article2);
+
+        typeRepository.save(type1);
+        typeRepository.save(type2);
+
     }
 
 }
