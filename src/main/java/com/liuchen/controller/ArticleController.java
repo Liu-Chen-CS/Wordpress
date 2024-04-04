@@ -43,7 +43,7 @@ public class ArticleController {
         return result;
     }
 
-    @GetMapping("/resource/{id}")
+    @DeleteMapping("/resource/{id}")
     public Result deleteArticleById(@PathVariable(name = "id") Long id){
         Result result = articleService.deleteArticleById(id);
         return result;
