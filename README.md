@@ -104,10 +104,10 @@ and operations for `articles` and related content while using `MySQL` database. 
 ![Snipaste_2024-04-01_17-44-01](https://github.com/Liu-Chen-CS/Wordpress/assets/158779475/9fa6a4aa-d7e0-428d-9da0-c5d9aabbb5fc)
 
 ### Delete article by id
- - `GET` http://localhost:8080/article/resource/11
+ - `Delete` http://localhost:8080/article/resource/11
 
 ![Snipaste_2024-04-01_17-50-05](https://github.com/Liu-Chen-CS/Wordpress/assets/158779475/9906c146-b842-4f90-b6eb-fe20aafab3c1)
-![Snipaste_2024-04-01_17-48-17](https://github.com/Liu-Chen-CS/Wordpress/assets/158779475/e5213306-92ad-4c42-a72f-ad39485c62ae)
+
 
 
 
