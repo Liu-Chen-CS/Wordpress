@@ -35,6 +35,9 @@ public class ApplicationTest {
     @Autowired
     TypeRepository typeRepository;
 
+    @Autowired
+    AuthorRepository authorRepository;
+
     @Test
     void saveAsrticle(){
         //article initialization
@@ -108,24 +111,6 @@ public class ApplicationTest {
 
     @Test
     void findArticleById(){
-//        Article articleDB = new Article();
-//        List<Comment> commentList = new ArrayList<>();
-//
-//
-//        Article byId = articleRepository.findById(1L).get();
-//        List<Comment> articleById = commentRepository.findArticleById(1L);
-//
-//        commentList.add(articleById.get(0));
-//        commentList.add(articleById.get(1));
-//        commentList.add(articleById.get(2));
-//
-//        articleDB.setAid(byId.getAid());
-//        articleDB.setAuthor(byId.getAuthor());
-//        articleDB.setDescription(byId.getDescription());
-//        articleDB.setCommentList(commentList);
-//
-//        System.out.println(articleDB.getAuthor());
-
         articleRepository.findById(1L);
     }
 
@@ -165,6 +150,23 @@ public class ApplicationTest {
         type1.setArticles(articles);
         type2.setArticles(articles);
 
+        Author author1 = new Author();
+        Author author2 = new Author();
+
+        author1.setName("James");
+        author2.setName("Kobe");
+
+        author1.setArticles(articles);
+        author2.setArticles(articles);
+
+
+        HashSet<Author> authors = new HashSet<>();
+        authors.add(author1);
+        authors.add(author2);
+
+        article1.setAuthors(authors);
+        article2.setAuthors(authors);
+
 
         articleRepository.save(article1);
         articleRepository.save(article2);
@@ -172,6 +174,8 @@ public class ApplicationTest {
         typeRepository.save(type1);
         typeRepository.save(type2);
 
+        authorRepository.save(author1);
+        authorRepository.save(author2);
     }
 
 }

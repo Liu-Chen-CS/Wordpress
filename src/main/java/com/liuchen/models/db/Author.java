@@ -12,27 +12,27 @@ import java.util.Set;
  * Description:
  *
  * @Author: Liu-Chen-CS
- * @Create: 4/4/2024 - 2:47 PM
+ * @Create: 4/6/2024 - 11:02 AM
  * @Version: v1.0
  */
-
 @Entity
-@Table(name = "type")
+@Table(name = "author")
 @Data
-public class Type {
+public class Author {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long tid;
+    @Column(name = "author_id")
+    private Long authorId;
 
-    private ArticleType type;
+    private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @JoinTable(
-            name = "article_type",
-            joinColumns = {@JoinColumn(name = "tid", referencedColumnName = "tid")},
-            inverseJoinColumns = {@JoinColumn(name = "aid", referencedColumnName = "id")}
+            name = "author_article",
+            joinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")},
+            inverseJoinColumns = {@JoinColumn(name = "article_id", referencedColumnName = "id")}
     )
     private Set<Article> articles = new HashSet<>();
 

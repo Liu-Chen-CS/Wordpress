@@ -40,4 +40,8 @@ public class Article extends DBEntity{
     @EqualsAndHashCode.Exclude
     private Set<Type> types;
 
+    @ManyToMany(mappedBy = "articles", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private Set<Author> authors;
+
 }
